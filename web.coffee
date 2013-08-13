@@ -81,6 +81,7 @@ app.get '/', (request, response) ->
                 </p>
                 <p>
                     The code for this service is <a href="https://github.com/mbertolacci/lorem-rss">available on GitHub</a>.
+                </p>
                 <h2>API</h2>
                 <p>
                     Visit <a href="/feed">/feed</a>, with the following optional parameters:
