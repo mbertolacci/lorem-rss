@@ -173,8 +173,7 @@ app.get '/feed', (request, response) ->
         feed.item {
             title: "Lorem ipsum #{pubDate.format()}",
             description: loremIpsum(
-                random: () ->
-                    seedRandom(pubDate.unix())()
+                random: seedRandom(pubDate.unix())
             )
             link: "http://example.com/test/#{pubDate.format('X')}"
             date: pubDate.clone().toDate()
