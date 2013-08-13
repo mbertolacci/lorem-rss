@@ -79,6 +79,8 @@ app.get '/', (request, response) ->
                     Generates RSS feeds with content updated at regular intervals. I wrote this to
                     answer a <a href="http://stackoverflow.com/questions/18202048/are-there-any-constantly-updating-rss-feed-services-to-use-for-testing-or-just">question I asked on Stack Overflow</a>.
                 </p>
+                <p>
+                    The code for this service is <a href="https://github.com/mbertolacci/lorem-rss">available on GitHub</a>.
                 <h2>API</h2>
                 <p>
                     Visit <a href="/feed">/feed</a>, with the following optional parameters:
