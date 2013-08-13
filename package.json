@@ -1,0 +1,19 @@
+{
+  "name": "lorem-rss",
+  "version": "0.0.1",
+  "description": "",
+  "main": "web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "express": "~3.3.5",
+    "moment": "~2.1.0",
+    "feed": "~0.2.3",
+    "lodash": "~1.3.1",
+    "lorem-ipsum": "~0.1.1",
+    "seed-random": "~1.0.1"
+  }
+}
