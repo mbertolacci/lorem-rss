@@ -23,7 +23,7 @@ THE SOFTWARE.
 ###
 
 express = require 'express'
-Feed = require 'feed'
+RSS = require 'rss'
 moment = require 'moment'
 _ = require 'lodash'
 
@@ -177,18 +177,12 @@ app.get '/feed', (request, response) ->
         response.send(500, "Unit must be one of #{_.keys(units).join(', ')}")
         return
 
-    feed = new Feed({
+    feed = new RSS({
         title: "Lorem ipsum feed for an interval of #{interval} #{unit}s",
         description: 'This is a constantly updating lorem ipsum feed'
-        link: 'http://example.com/',
-        image: 'http://example.com/image.png',
+        site_url: 'http://example.com/',
         copyright: 'Michael Bertolacci, licensed under a Creative Commons Attribution 3.0 Unported License.',
-
-        author: {
-            name: 'Michael Bertolacci',
-            email: '',
-            link: 'https://mgnbsoftware.com'
-        }
+        author: 'John Smith'
     })
 
     pubDate = getNearest(interval, unit)
@@ -199,13 +193,13 @@ app.get '/feed', (request, response) ->
             description: loremIpsum(
                 random: seedRandom(pubDate.unix())
             )
-            link: "http://example.com/test/#{pubDate.format('X')}"
+            url: "http://example.com/test/#{pubDate.format('X')}"
             date: pubDate.clone().toDate()
         }
         pubDate = pubDate.subtract(interval, unit)
 
     response.set 'Content-Type', 'application/rss+xml'
-    response.send feed.render('rss-2.0');
+    response.send feed.xml()
 
 
 port = process.env.PORT || 5000;
