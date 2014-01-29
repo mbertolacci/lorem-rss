@@ -29,6 +29,7 @@ _ = require 'lodash'
 
 loremIpsum = require 'lorem-ipsum'
 seedRandom = require 'seed-random'
+crypto = require 'crypto'
 
 app = express()
 
@@ -177,13 +178,16 @@ app.get '/feed', (request, response) ->
         response.send(500, "Unit must be one of #{_.keys(units).join(', ')}")
         return
 
+    pubDate = getNearest(interval, unit)
+
     feed = new RSS({
         title: "Lorem ipsum feed for an interval of #{interval} #{unit}s",
         description: 'This is a constantly updating lorem ipsum feed'
         site_url: 'http://example.com/',
         copyright: 'Michael Bertolacci, licensed under a Creative Commons Attribution 3.0 Unported License.',
         ttl: moment.duration(interval, unit).asSeconds()
-        author: 'John Smith'
+        author: 'John Smith',
+        pubDate: pubDate.clone().toDate()
     })
 
     pubDate = getNearest(interval, unit)
@@ -199,7 +203,10 @@ app.get '/feed', (request, response) ->
         }
         pubDate = pubDate.subtract(interval, unit)
 
+    etagString = feed.pubDate + interval + unit
+
     response.set 'Content-Type', 'application/rss+xml'
+    response.set 'ETag', "\"#{crypto.createHash('md5').update(etagString).digest("hex");}\""
     response.send feed.xml()
 
 
