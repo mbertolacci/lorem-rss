@@ -128,7 +128,7 @@ app.get '/', (request, response) ->
                         The default, updates once a minute: <a href="/feed">/feed</a>
                     </li>
                     <li>
-                        Update every second instead of minute: <a href="/feed?unit=minute">/feed?unit=minute</a>
+                        Update every second instead of minute: <a href="/feed?unit=second">/feed?unit=second</a>
                     </li>
                     <li>
                         Update every 30 seconds: <a href="/feed?unit=second&interval=30">/feed?unit=second&interval=30</a>
