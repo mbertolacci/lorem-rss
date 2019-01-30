@@ -186,7 +186,6 @@ app.get '/feed', (request, response) ->
         description: 'This is a constantly updating lorem ipsum feed'
         site_url: 'http://example.com/',
         copyright: 'Michael Bertolacci, licensed under a Creative Commons Attribution 3.0 Unported License.',
-        author: 'John Smith',
         ttl: moment.duration(interval, unit).asMinutes()
         pubDate: pubDate.clone().toDate()
     })
@@ -200,6 +199,7 @@ app.get '/feed', (request, response) ->
                 random: seedRandom(pubDate.unix())
             )
             url: "http://example.com/test/#{pubDate.format('X')}"
+            author: 'John Smith',
             date: pubDate.clone().toDate()
         }
         pubDate = pubDate.subtract(interval, unit)
