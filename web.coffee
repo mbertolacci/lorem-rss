@@ -186,7 +186,7 @@ app.get '/feed', (request, response) ->
         description: 'This is a constantly updating lorem ipsum feed'
         site_url: 'http://example.com/',
         copyright: 'Michael Bertolacci, licensed under a Creative Commons Attribution 3.0 Unported License.',
-        ttl: moment.duration(interval, unit).asMinutes()
+        ttl: Math.ceil(moment.duration(interval, unit).asMinutes()),
         pubDate: pubDate.clone().toDate()
     })
 
