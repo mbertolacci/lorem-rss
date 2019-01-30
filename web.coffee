@@ -111,7 +111,7 @@ app.get '/', (request, response) ->
                 <h2>API</h2>
                 <p>
                     Visit <a href="/feed">/feed</a>, with the following optional parameters:
-                </p>        
+                </p>
                 <ul class="disc indent">
                     <li>
                         <em>unit</em>: one of second, minute, day, month, or year
