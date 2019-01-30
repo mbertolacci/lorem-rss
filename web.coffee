@@ -26,6 +26,7 @@ express = require 'express'
 RSS = require 'rss'
 moment = require 'moment'
 _ = require 'lodash'
+morgan = require 'morgan'
 
 loremIpsum = require 'lorem-ipsum'
 seedRandom = require 'seed-random'
@@ -33,7 +34,7 @@ crypto = require 'crypto'
 
 app = express()
 
-app.use express.logger()
+app.use morgan('combined')
 
 units = {
     second: {
