@@ -31,6 +31,7 @@ morgan = require 'morgan'
 loremIpsum = require 'lorem-ipsum'
 seedRandom = require 'seed-random'
 crypto = require 'crypto'
+iconv = require 'iconv-lite'
 
 app = express()
 
@@ -182,7 +183,7 @@ app.get '/feed', (request, response) ->
     pubDate = getNearest(interval, unit)
 
     feed = new RSS({
-        title: "Lorem ipsum feed for an interval of #{interval} #{unit}s",
+        title: "Lorem ipsum feed for an interval of #{interval} #{unit}s" + '你好世界（charset test）',
         description: 'This is a constantly updating lorem ipsum feed'
         site_url: 'http://example.com/',
         copyright: 'Michael Bertolacci, licensed under a Creative Commons Attribution 3.0 Unported License.',
@@ -206,9 +207,21 @@ app.get '/feed', (request, response) ->
 
     etagString = feed.pubDate + interval + unit
 
-    response.set 'Content-Type', 'application/rss+xml'
     response.set 'ETag', "\"#{crypto.createHash('md5').update(etagString).digest("hex");}\""
-    response.send feed.xml()
+    console.log(request.query)
+    if request.query.charset?
+        charset = request.query.charset
+    else
+        charset = 'utf8'
+    if charset == 'utf8'
+        response.set 'Content-Type', 'application/rss+xml'
+        xmlText = feed.xml()
+    else
+        response.set 'Content-Type', 'application/rss+xml;'+'charset=' + charset + ';'
+        xmlText = feed.xml()
+        xmlText = xmlText.replace /encoding="([\w-]+?)"/, 'encoding="' + charset + '"';
+        xmlText = iconv.encode(xmlText, charset);
+    response.send xmlText
 
 
 port = process.env.PORT || 5000;
