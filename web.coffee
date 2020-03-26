@@ -31,6 +31,7 @@ morgan = require 'morgan'
 loremIpsum = require 'lorem-ipsum'
 seedRandom = require 'seed-random'
 crypto = require 'crypto'
+iconv = require 'iconv-lite'
 
 app = express()
 
@@ -122,6 +123,9 @@ app.get '/', (request, response) ->
                         for month it must evenly divide 12, and for day and year it
                         can only be 1.
                     </li>
+                    <li>
+                        <em>charset</em>: xml charset <a href="https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings">support charset</a>
+                    </li>
                 </ul>
                 <h2>Examples</h2>
                 <ul class="disc indent">
@@ -142,6 +146,9 @@ app.get '/', (request, response) ->
                     </li>
                     <li>
                         Update once a year: <a href="/feed?unit=year">/feed?unit=year</a>
+                    </li>
+                    <li>
+                        Output as gbk encoding: <a href="/feed?charset=gbk">/feed?charset=gbk</a>
                     </li>
                     <li>
                         <strong>Invalid example:</strong>
@@ -182,7 +189,7 @@ app.get '/feed', (request, response) ->
     pubDate = getNearest(interval, unit)
 
     feed = new RSS({
-        title: "Lorem ipsum feed for an interval of #{interval} #{unit}s",
+        title: "Lorem ipsum feed change every #{interval} #{unit}s" + ' 你好世界（charset test）',
         description: 'This is a constantly updating lorem ipsum feed'
         site_url: 'http://example.com/',
         copyright: 'Michael Bertolacci, licensed under a Creative Commons Attribution 3.0 Unported License.',
@@ -206,9 +213,21 @@ app.get '/feed', (request, response) ->
 
     etagString = feed.pubDate + interval + unit
 
-    response.set 'Content-Type', 'application/rss+xml'
     response.set 'ETag', "\"#{crypto.createHash('md5').update(etagString).digest("hex");}\""
-    response.send feed.xml()
+    console.log(request.query)
+    if request.query.charset?
+        charset = request.query.charset
+    else
+        charset = 'utf8'
+    if charset == 'utf8'
+        response.set 'Content-Type', 'application/rss+xml'
+        xmlText = feed.xml()
+    else
+        response.set 'Content-Type', 'application/rss+xml;'+'charset=' + charset + ';'
+        xmlText = feed.xml()
+        xmlText = xmlText.replace /encoding="([\w-]+?)"/, 'encoding="' + charset + '"';
+        xmlText = iconv.encode(xmlText, charset);
+    response.send xmlText
 
 
 port = process.env.PORT || 5000;
