@@ -133,6 +133,9 @@
                     for month it must evenly divide 12, and for day and year it
                     can only be 1.
                 </li>
+                <li>
+                    <em>charset</em>: xml charset <a href="https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings">support charset</a>
+                </li>
             </ul>
             <h2>Examples</h2>
             <ul class="disc indent">
@@ -153,6 +156,9 @@
                 </li>
                 <li>
                     Update once a year: <a href="/feed?unit=year">/feed?unit=year</a>
+                </li>
+                <li>
+                    Output as gbk encoding: <a href="/feed?charset=gbk">/feed?charset=gbk</a>
                 </li>
                 <li>
                     <strong>Invalid example:</strong>
@@ -192,7 +198,7 @@
     }
     pubDate = getNearest(interval, unit);
     feed = new RSS({
-      title: `Lorem ipsum feed for an interval of ${interval} ${unit}s` + '你好世界（charset test）',
+      title: `Lorem ipsum feed change every ${interval} ${unit}s` + ' 你好世界（charset test）',
       description: 'This is a constantly updating lorem ipsum feed',
       site_url: 'http://example.com/',
       copyright: 'Michael Bertolacci, licensed under a Creative Commons Attribution 3.0 Unported License.',
