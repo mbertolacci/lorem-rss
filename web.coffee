@@ -122,11 +122,15 @@ app.get '/', (request, response) ->
                         for month it must evenly divide 12, and for day and year it
                         can only be 1.
                     </li>
+                    <li>
+                        <em>length</em>: an integer that determines the number of items in the feed.
+                        Must be greater or equal to 0 and smaller or equal to 1000. Defaults to 10 items.
+                    </li>
                 </ul>
                 <h2>Examples</h2>
                 <ul class="disc indent">
                     <li>
-                        The default, updates once a minute: <a href="/feed">/feed</a>
+                        The default, updates once a minute, with 10 entries: <a href="/feed">/feed</a>
                     </li>
                     <li>
                         Update every second instead of minute: <a href="/feed?unit=second">/feed?unit=second</a>
@@ -142,6 +146,9 @@ app.get '/', (request, response) ->
                     </li>
                     <li>
                         Update once a year: <a href="/feed?unit=year">/feed?unit=year</a>
+                    </li>
+                    <li>
+                        Default feed with 42 entries: <a href="/feed?length=42">/feed?length=42</a>
                     </li>
                     <li>
                         <strong>Invalid example:</strong>
@@ -179,10 +186,16 @@ app.get '/feed', (request, response) ->
         response.send(500, "Unit must be one of #{_.keys(units).join(', ')}")
         return
 
+    length = request.query.length || 10
+
+    if length < 0 or length > 1000
+        response.send(500, "Length must be greater or equal to 0 and smaller or equal to 1000")
+        return
+
     pubDate = getNearest(interval, unit)
 
     feed = new RSS({
-        title: "Lorem ipsum feed for an interval of #{interval} #{unit}s",
+        title: "Lorem ipsum feed for an interval of #{interval} #{unit}s with #{length} item(s)",
         description: 'This is a constantly updating lorem ipsum feed'
         site_url: 'http://example.com/',
         copyright: 'Michael Bertolacci, licensed under a Creative Commons Attribution 3.0 Unported License.',
@@ -192,7 +205,7 @@ app.get '/feed', (request, response) ->
 
     pubDate = getNearest(interval, unit)
 
-    for i in [0...10]
+    for i in [0...length]
         feed.item {
             title: "Lorem ipsum #{pubDate.format()}",
             description: loremIpsum(
