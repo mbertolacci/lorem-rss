@@ -124,7 +124,7 @@ app.get '/', (request, response) ->
                         can only be 1.
                     </li>
                     <li>
-                        <em>charset</em>: xml charset <a href="https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings">support charset</a>
+                        <em>charset</em>: charset used to encode XML. See <a href="https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings">here for supported charsets</a>.
                     </li>
                 </ul>
                 <h2>Examples</h2>
@@ -189,7 +189,7 @@ app.get '/feed', (request, response) ->
     pubDate = getNearest(interval, unit)
 
     feed = new RSS({
-        title: "Lorem ipsum feed change every #{interval} #{unit}s" + ' 你好世界（charset test）',
+        title: "Lorem ipsum feed for an interval of #{interval} #{unit}s",
         description: 'This is a constantly updating lorem ipsum feed'
         site_url: 'http://example.com/',
         copyright: 'Michael Bertolacci, licensed under a Creative Commons Attribution 3.0 Unported License.',
@@ -214,7 +214,6 @@ app.get '/feed', (request, response) ->
     etagString = feed.pubDate + interval + unit
 
     response.set 'ETag', "\"#{crypto.createHash('md5').update(etagString).digest("hex");}\""
-    console.log(request.query)
     if request.query.charset?
         charset = request.query.charset
     else
@@ -222,6 +221,9 @@ app.get '/feed', (request, response) ->
     if charset == 'utf8'
         response.set 'Content-Type', 'application/rss+xml'
         xmlText = feed.xml()
+    else if not iconv.encodingExists(charset)
+        response.status 500
+        response.send 'encoding is not supported'
     else
         response.set 'Content-Type', 'application/rss+xml;'+'charset=' + charset + ';'
         xmlText = feed.xml()
