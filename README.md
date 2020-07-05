@@ -22,6 +22,22 @@ Visit [http://lorem-rss.herokuapp.com/feed](http://lorem-rss.herokuapp.com/feed)
 *   Default feed with 42 entries: [/feed?length=42"](http://lorem-rss.herokuapp.com/feed?length=42)
 *   **Invalid example:** update every 7 minutes (does not evenly divide 60): [/feed?unit=minute&interval=7](http://lorem-rss.herokuapp.com/feed?unit=minute&interval=7)
 
+## Running locally
+
+The project contains a Dockerfile that can be used to run Lorem RSS locally. Build via:
+
+```
+docker build . -t lorem-rss
+```
+
+Run via:
+
+```
+docker run --rm -it -p 5000:5000 lorem-rss
+```
+
+With thanks given to [eelkevdbos](https://github.com/eelkevdbos), who contributed the Dockerfile.
+
 ## Copyright
 
 ### The feed and documentation
