@@ -14,7 +14,7 @@ Visit [http://lorem-rss.herokuapp.com/feed](http://lorem-rss.herokuapp.com/feed)
 ## Examples
 
 *   The default, updates once a minute, with 10 entries: [/feed](http://lorem-rss.herokuapp.com/feed)
-*   Update every second instead of minute: [/feed?unit=minute](http://lorem-rss.herokuapp.com/feed?unit=minute)
+*   Update every second instead of minute: [/feed?unit=second](http://lorem-rss.herokuapp.com/feed?unit=second)
 *   Update every 30 seconds: [/feed?unit=second&interval=30](http://lorem-rss.herokuapp.com/feed?unit=second&interval=30)
 *   Update once a day: [/feed?unit=day](http://lorem-rss.herokuapp.com/feed?unit=day)
 *   Update every 6 months: [/feed?unit=month&interval=6](http://lorem-rss.herokuapp.com/feed?unit=month&interval=6)
