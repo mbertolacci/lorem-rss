@@ -10,7 +10,7 @@
   "license": "BSD",
   "dependencies": {
     "crypto": "~0.0.3",
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "lodash": "^4.17.13",
     "lorem-ipsum": "~0.1.1",
     "moment": "^2.24.0",
