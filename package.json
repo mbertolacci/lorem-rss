@@ -11,7 +11,7 @@
   "dependencies": {
     "crypto": "~0.0.3",
     "express": "^4.18.2",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.21",
     "lorem-ipsum": "~0.1.1",
     "moment": "^2.29.4",
     "morgan": "^1.9.1",
